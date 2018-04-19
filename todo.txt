@@ -1,0 +1,48 @@
+1. Random (done)
+2. real-instructions (done)
+3. check user database (done)
+4. image size (done)
+
+Todo:
+(1) Name: gist of image
+(2) Welcome to our image game! please enter your Amazon Mechanical Turk (AMT) WorkerID below.
+(3) OSU IRB (?)
+(4) Instructions:
+    (a) Level: 3 - 9
+               7 levels
+               levels:    random + regular
+                       or regular + random
+    (b) Training: relevant figure 
+    (c) Encoding: option 1: select the encoding by participants
+                            3 programs to query one db
+                  option 2: random (what I am doing now)
+    Time: t seconds
+    (d) Practice:
+               t seconds
+                    color and texture: hit rate 0.5
+                    splitvectors:
+                           increase time (?)
+                           decrease the threshold 0.3 (?)
+        Real game:
+               t seconds
+(5) 3 games (with 3 encodings)
+    collection(user)
+            - isBlocked1
+            - isBlocked2
+            - isBlocked3
+(6) Payment based on the minutes in real game + some constant time
+    Check the MTurk
+(7) Summary at the end
+(8) Lab-based study (eye tracking): this week
+    Limited time: 
+    Data:
+         Data selection: design (the document)
+         Prepare data: the original rules for Task 1 and 2
+           Task 1: max
+           Task 2: min  
+           Task 3: X (what is the X?) (can use gist data or new) 
+         Random + Regular 
+         Rotate data? Sync with eye tracking?
+         Ask 4th floor eye tracking 
+            Amy Hurst (Thursday)
+         Wesley's graph study can sync
