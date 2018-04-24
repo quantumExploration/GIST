@@ -59,9 +59,9 @@ function preLoadImage(imageURLobj){
 		if(loadedimage == imageCount){
 			$('.shader').css({'width':'70%'});
 			//initialize the vigilance variable
-			globalVigilance.nonRepeatIndex = new Array();
-			globalVigilance.cursor = 0;
-			getVigilance();//globalWorkerObj.finishLevel);
+			//globalVigilance.nonRepeatIndex = new Array();
+			//globalVigilance.cursor = 0;
+			//getVigilance();//globalWorkerObj.finishLevel);
 			//go to ready to page()
 			readyGame();
 		}
@@ -87,12 +87,232 @@ function preLoadImage(imageURLobj){
 			imageloadpost();
 		}
 	}
+}
+
+function readyGame(){
+    $(".loading").css({'display': 'none'});
+    $(".game-box").css({'display': 'block'});
+    $(".imageContainer").css({'display': 'none'});
+    $(".header-instructions").text("Instructions");
+    $('.shader').css({'width':'0%'});    //reset the progress bar
+
+    var X = globalLevel ;
+    var time = "2 seconds";
+
+    var practiceInstruction1 = "A stream of images (28 images) will be shown on the screen for " + time.bold() + " each. \n" + // +
+        "<br>" +
+        "<br>" +
+        "There are 7 levels, and each level has 4 images."
+        //"<br>" +
+        //"<br>" +
+        //"Each image has around 450 cylinders"
+        //"Press the " + space.bold() + " bar immediately after you see an image which has the " + X.bold() + " different " + encode.bold() +
+        //". " +
+        //encodeInstructions +
+        //" In this practice, each image will have around 450 cylinders. "
+
+    var practiceInstruction2 = "<br>" +
+        "You must pass the test in order to continue the real game. You will have up to three chances to take the test. \n" +
+        "<br>"+
+        "<br>"+
+        "You may exit the test at any time. when you log back in, you need to retake the test. "
+        //"<br>"+
+        //"<br>"+//+
+        //"<br>" +
+        //"<br>" +
+        //"Whenever you press the " + space.bold() + " bar, you will get feedback:"
+
+    var realInstruction="This real game contains 98 images. It will take about 5 minutes to complete the game." +
+        "<br>" +
+        "<br>" +
+        " You will be paid <span class=\"boldspan\">$0.8</span> in total," +
+        "<br>" +
+        "<br>" +
+        "You will get a reward code after you finish the game." // +
+        //"<br>" +
+        //"<br>" +
+        //"<span class=\"boldspan\">Note: </span> " +
+        //"If you opt out midway through this game, you will need to replay this game when you log in again.\n" //+
+        //"<br>" +
+        //"<br>" +
+        //"Press the " + space.bold() + " bar anytime you see an image has the " + X.bold() + " (X will be given in each image) different " + encode.bold() +
+        //". " +
+        //"<br>" +
+        //"<br>" +
+        //"Whenever you press the <span class=\"boldspan\">\"space\"</span> bar, you will get <span class=\"boldspan\">feedback</span>:"
+
+    if(globalWorkerObj.isPracticeMode == 1){
+        $(".realgame-instructions").css({'display':'none'});
+        $(".practice-instructions1").css({'display':'block'});
+        $(".practice-instructions1").html(practiceInstruction1);
+        $(".practice-instructions2").css({'display':'block'});
+        $(".practice-instructions2").html(practiceInstruction2);
+        //$(".encode-box").css({'display':'block'});
+        //$('.encodeImage1').attr("src",encodeImage1);
+        //$('.encodeImage2').attr("src",encodeImage2);
+        //$(".encode-box").css({'top':'10%'})
+        //$(".icon-box").css({'display':'block'});
+        //$('.icon-box').css({'top':'8%'})
+        $('#begingame-button').css({'top':'20%'})
+    }
+    else{
+        //real game instruction
+        $(".realgame-instructions").css({'display':'block'});
+        $(".realgame-instructions").html(realInstruction);
+        //var rightnowLevel = parseInt(globalWorkerObj.finishLevel)+1;
+        //$("#rightNowLevel2").text("(Level "+rightnowLevel+")");
+        //$(".icon-box").css({'display':'block'});
+        //$('.icon-box').css({'top':'10%'})
+        $(".practice-instructions1").css({'display':'none'});
+        $(".practice-instructions2").css({'display':'none'});
+        $('#begingame-button').css({'top':'15%'})
+    }
+
+    //var practiceInstruction;
+    //var realInstruction;
+    //var time = "2 seconds";
+    //var space = "space";
+    //var encode;
+    //var ENCODE;
+    var levelInstructions;
+    //var encodeInstructions;
+    //var encodeImage1 = "/images/4color.png";
+    //var encodeImage2 = "/images/7texture.png";
 
 
+    //if(globalWorkerObj.isPracticeMode == 1){
+    //    $(".encode-box").css({'display':'block'});
+    //    $('.encodeImage1').attr("src",encodeImage1);
+    //    $(".encode-box").css({'top':'10%'})
+    //    $(".icon-box").css({'display':'block'});
+    //    $('.icon-box').css({'top':'8%'})
+    //    $('#begingame-button').css({'top':'10%'})
+    //}
+    //else{
+        //real game instruction
+    //    $(".icon-box").css({'display':'block'});
+    //    $('.icon-box').css({'top':'10%'})
+    //    $('#begingame-button').css({'top':'15%'})
+    //}
+    $("#begingame-button").css({ 'display': 'block' });
+    //register click event to show image
+    $('#begingame-button').unbind('click').click(function() {});
+    $("#begingame-button").click(function(){
+        //var instructionString;
+
+        //if (globalEncodeIndex == 1) {
+          //  instructionString = "Press the 'Space' bar any time you see an image has 3 different colors";
+        //}
+        //else if (globalEncodeIndex == 2) {
+          //  instructionString = "Press the 'Space' bar any time you see an image has 3 different textures";
+        //}
+        //else if (globalEncodeIndex == 3) {
+          //  instructionString = "Press the 'Space' bar any time you see an image has 3 different outside cylinders";
+        //}
+        //$(".header-instructions").text(instructionString);
+        levelShow();
+    })
+}
+
+function levelShow(){
+    var X = globalLevel + 3;
+    var XString = X.toString();
+    var headerInstructions = "Level " + (globalLevel + 1);
+    $(".header-instructions").text(headerInstructions);
+    $(".realgame-instructions").css({'display':'none'});
+    $(".practice-instructions1").css({'display':'none'});
+    $(".practice-instructions2").css({'display':'none'});
+    $(".level-instructions").css({'display':'block'});
+    $(".feedback-instructions").css({'display':'block'});
+    $("#begingame-button").css({ 'display': 'none' });
+    $('.progress-bar').css({ 'display': 'block' });
+    $(".feedbackImage").css({'display': 'none'});
+
+    console.log(globalEncodeIndex);
+
+    if (globalEncodeIndex == 1) {
+        //encode = "colors of cylinders";
+        levelInstructions = "Please press the space bar immediately after you see an image which has the " + XString.bold() + " different colors. " +
+			"Each image have around 450 cylinders. " +
+            "<br>" +
+            "<br>" +
+            "For example, there are " + XString.bold() + " different colors in the following cylinders."//+
+            //"Whenever you press the space, you will get feedback:"
+        //encodeInstructions = "For example, there are 4 and 7 different colors in the following two images.";
+        encodeImage1 = "/images/"+XString+"color.png";
+        console.log(encodeImage1);
+        //encodeImage2 = "/images/7color.png";
+    }
+    else if (globalEncodeIndex == 2) {
+        levelInstructions = "Please press the space bar immediately after you see an image which has the " + XString.bold() + " different textures. " +
+            "Each image have around 450 cylinders. " +
+            "<br>" +
+            "<br>" +
+            "For example, there are " + XString.bold() + " different textures in the following cylinders."//+
+            //"Whenever you press the space, you will get feedback:"
+        //encode = "textures of cylinders";
+        //encodeInstructions = "\"Texture\" in the game means the percentage of black color on the side surface of a cylinder. " +
+        //    "For example, there are 4 and 7 different textures in the following two images.";
+        encodeImage1 = "/images/"+XString+"texture.png";
+        //encodeImage2 = "/images/7texture.png";
+    }
+    else {
+        levelInstructions = "Please press the space bar immediately after you see an image which has the " + XString.bold() + " different outside cylinders. " +
+            "Each image have around 450 concentric cylinders. " +
+            "<br>" +
+            "<br>" +
+            "In the concentric cylinders, only the outside one is relevant to this game." +
+            "<br>" +
+            "<br>" +
+            "For example, there are " + XString.bold() + " different outside cylinders in the following cylinders." //+
+            //"Whenever you press the space, you will get feedback:"
+        //encode = "outside cylinders";
+        //encodeInstructions = "In the two co-centric cylinders, only the length of the outside one is relevant to this game. " +
+        //    "For example, there are 4 and 7 different outside cylinders in the following two images.";
+        encodeImage1 = "/images/"+XString+"splitvectors.png";
+        //encodeImage2 = "/images/7splitvectors.png";
+    }
+
+    $(".level-instructions").html(levelInstructions);
+    //if(globalWorkerObj.isPracticeMode == 1){
+        $(".encode-box").css({'display':'block'});
+        $('.encodeImage1').attr("src",encodeImage1);
+        $(".encode-box").css({'top':'10%'})
+        $(".icon-box").css({'display':'block'});
+        $('.icon-box').css({'top':'15%'})
+
+    //}
+   // else{
+    //real game instruction
+   //     $(".icon-box").css({'display':'block'});
+   //     $('.icon-box').css({'top':'15%'})
+    //}
+
+    $('#begingame-button').css({'display':'none'})
+    $("#beginlevel-button").css({ 'display': 'block' });
+    //register click event to show image
+    $('#beginlevel-button').unbind('click').click(function() {});
+    $("#beginlevel-button").click(function(){
+        if (globalEncodeIndex == 1) {
+            headerInstructions = "Level " + (globalLevel + 1) +
+				": Please press the space bar immediately after you see an image which has the " + XString + " different colors."
+        }
+        else if (globalEncodeIndex == 2) {
+            headerInstructions = "Level " + (globalLevel + 1) +
+                ": Please press the space bar immediately after you see an image which has the " + XString + " different colors."
+        }
+        else {
+            headerInstructions = "Level " + (globalLevel + 1) +
+                ": Please press the space bar immediately after you see an image which has the " + XString + " different colors."
+        }
+        $(".header-instructions").text(headerInstructions);
+
+        imageShow();
+    })
 }
 
 //before game
-function readyGame() {
+/*function readyGame() {
 
     $(".loading").css({'display': 'none'});
     $(".game-box").css({'display': 'block'});
@@ -102,7 +322,7 @@ function readyGame() {
     //before instruction set up
     var practiceInstruction;
     var realInstruction;
-    var time = "5 seconds";
+    var time = "2 seconds";
     var space = "space";
     var X = "X";
     var encode;
@@ -110,8 +330,6 @@ function readyGame() {
     var encodeInstructions;
     var encodeImage1 = "/images/4color.png";
     var encodeImage2 = "/images/7texture.png";
-
-
 
     if (globalEncodeIndex == 1) {
         encode = "colors of cylinders";
@@ -138,7 +356,7 @@ function readyGame() {
     var practiceInstruction1 = "Dear participant, welcome to our practice test! \n" +
         "<br>" +
         "<br>" +
-        "In this section, a stream of images (28 images totally) will be presented on the screen for " + time.bold() + " each. \n" +
+        "In this section, a stream of images (4 images totally) will be presented on the screen for " + time.bold() + " each. \n" +
         "<br>" +
         "<br>" +
         "Press the " + space.bold() + " bar anytime you see an image has the " + X.bold() + " (X will be given in each image) different " + encode.bold() +
@@ -155,7 +373,7 @@ function readyGame() {
 	console.log(encodeImage1);
 
     realInstruction="Great job! Now you will start the real game. The game will be just like the practice you just played," +
-        " except longer and a bit more difficult (<span class=\"boldspan\">98</span> images for <span class=\"boldspan\">1 second</span>  each)." +
+        " except longer and a bit more difficult (<span class=\"boldspan\">14</span> images for <span class=\"boldspan\">2 second</span>  each)." +
         " So, pay attention! " +
 		"<br>" +
 		"<br>" +
@@ -223,50 +441,58 @@ function readyGame() {
 		imageShow();
 	})
 }
-
+*/
 function imageShow(){
 
 	//vis107
 	//vis881  //extreme image test picture
+    $("#beginlevel-button").css({'display':'none'});
+    $(".feedback-instructions").css({'display':'none'});
 	$(".realgame-instructions").css({'display':'none'});
 	$(".practice-instructions1").css({'display':'none'});
     $(".practice-instructions2").css({'display':'none'});
+    $(".level-instructions").css({'display':'none'});
 	$(".icon-box").css({'display':'none'});
     $('.encode-box').css({'display':'none'});
 	$("#begingame-button").css({ 'display': 'none' });
 	$(".imageContainer").css({'display':'block'});
-	$('.shader').css({'width':'0%'});    //reset the progress bar
+	//$('.shader').css({'width':'0%'});    //reset the progress bar
 	$('.progress-bar').css({ 'display': 'block' });
 	//$('.header-instructions').text("Press the 'Space' bar any time you see an image you saw before");
 	
 	//param set-up
 	var showTime = 1000;
 	var pauseTime = 1400;
-	var XTime = 1000;
-	var group;
 	var index = -1;
-	var indexShift = 0;
+	var step = 0;
+	var stepImage = -1;
+	var stepFeedback= -1;
 	var showFeedThread;  //the showFeed time function
 	var showImageThread;
-	var showXThread;
 	var isKeydown = 0;  //if user press the key, then change to 1;
 	var isWarning = 0;  //if user failed in vigilance task, then change to 1;
-	var lastPage = 0;
+	var stepCount;
 
 	//=============check game mode=============
 	var imageCount;
 	if(globalWorkerObj.isPracticeMode == 1){
+        stepCount = 4;
+		index = globalLevel * stepCount-1;
+		step = index;
+		//stepImage = index;
+		//stepFeedback = index;
 		imageCount = 28;
-		indexShift = 0;
-		showTime =  5000;
+		showTime =  1000;
 		pauseTime = 1000;
-		group = 4;
 	}
 	else{
-		group = 14;
+        stepCount = 14;
+		index = 28 + globalLevel * stepCount -1 ;
+		step = globalLevel * stepCount -1 ;
+		//stepImage = step;
+		//stepFeedback = step;
 		imageCount = 98;
-		indexShift = 28;
-		showTime =  2000;
+		showTime =  1000;
 		pauseTime = 1000;
 		//imageCount = globalSequence[globalWorkerObj.finishLevel].length;
 	}
@@ -276,73 +502,76 @@ function imageShow(){
 	var _showImage = function() {
 
 		index++;
+		step++;
+		stepImage++;
 		
-		console.log(index);
-        showTime = 5000;
+		//console.log(index);
 
-            /*var X;
-            if (globalWorkerObj.isPracticeMode == 1) {
-                X = Math.floor(index / 4) + 3;
-            }
-            else {
-                X = Math.floor(index / 14) + 3;
-            }*/
-            if (index >= imageCount - 1) {// - 1){
+
+
+		if (step == imageCount - 1) {// - 1){
                 //stop show images
                 //lastPage = 1;
                 clearInterval(showImageThread);
+		}
+		else {
+            var mod = Math.floor(stepImage % stepCount);
+            if(index > 0 && mod == stepCount-1){
+                //globalLevel ++;
+                clearInterval(showImageThread);
             }
-            isKeydown = 0;
-			var imageDistribution;
-			if(globalSequence[index + indexShift][5] == 0){
-				imageDistribution = 'R';
-			}
-			else{
-				imageDistribution = 'D';
-			}
-            var imageID = imageDistribution + globalSequence[index + indexShift][4].toString() + globalSequence[index + indexShift][0].toString() + globalSequence[index + indexShift][1].toString();
-            var src = globalImageURLobj[imageID];
-            //console.log(imageID);
+		}
+		isKeydown = 0;
+		var imageDistribution;
+		if (globalSequence[index][5] == 0) {
+                imageDistribution = 'R';
+		}
+        else {
+                imageDistribution = 'D';
+        }
+        var imageID = imageDistribution + globalSequence[index][4].toString() + globalSequence[index][0].toString() + globalSequence[index][1].toString();
+        var src = globalImageURLobj[imageID];
 
+        console.log(imageID);
 
             //register the keyboard event
-            $(document).on("keydown", function (e) {
-                if (e.keyCode == '32') {
-                    //record repeat state
-                    isKeydown = 1;
-                    //we only use warning when we take real game
-                    isWarning = recordRepeat(index + indexShift);//,globalWorkerObj.finishLevel);
-                    //globalSequence[index][3] = 1;
+         $(document).on("keydown", function (e) {
+             if (e.keyCode == '32') {
+                 //record repeat state
+                 isKeydown = 1;
+                 //we only use warning when we take real game
+                 isWarning = recordRepeat(index);//,globalWorkerObj.finishLevel);
+                 //globalSequence[index][3] = 1;
 
-                }
-            })
+             }
+         })
             //change image
-            $('.visImage').attr("src", src);
+		$('.visImage').attr("src", src);
             //$('.feedbackImage').attr("src",'/images/defult_feedback.png');
-            $(".feedbackImage").css({'display': 'none'});
-            $(".visImage").css({'display': 'block'});
-        /*    var instructionString;
+		$(".feedbackImage").css({'display': 'none'});
+		$(".visImage").css({'display': 'block'});
+            /*    var instructionString;
 
-            if (globalEncodeIndex == 1) {
-                instructionString = "Press the 'Space' bar any time you see an image has " + X + " different colors";
-            }
-            else if (globalEncodeIndex == 2) {
-                instructionString = "Press the 'Space' bar any time you see an image has " + X + " different textures";
-            }
-            else if (globalEncodeIndex == 3) {
-                instructionString = "Press the 'Space' bar any time you see an image has " + X + " different outside cylinders";
-            }
+                if (globalEncodeIndex == 1) {
+                    instructionString = "Press the 'Space' bar any time you see an image has " + X + " different colors";
+                }
+                else if (globalEncodeIndex == 2) {
+                    instructionString = "Press the 'Space' bar any time you see an image has " + X + " different textures";
+                }
+                else if (globalEncodeIndex == 3) {
+                    instructionString = "Press the 'Space' bar any time you see an image has " + X + " different outside cylinders";
+                }
 
-            //index++;
-            $('.header-instructions').text(instructionString);//"Press the 'Space' bar any time you see an image has ");
-		*/
+                //index++;
+                $('.header-instructions').text(instructionString);//"Press the 'Space' bar any time you see an image has ");
+            */
             //change progress bar
-            var proportion = (((index + 1) / imageCount).toFixed(2) * 70).toFixed(0);
-            $('.shader').css({'width': proportion + "%"});
+		var proportion = (((step + 1) / imageCount).toFixed(2) * 70).toFixed(0);
+		$('.shader').css({'width': proportion + "%"});
 
 	}
 
-	var _showX = function(){
+	/*var _showX = function(){
         $(".visImage").css({'display':'none'});
         $(".feedbackImage").css({'display':'none'});
 
@@ -372,47 +601,51 @@ function imageShow(){
             clearInterval(showXThread);
         }
 		//$(".task-instructions").css({'display': 'block'});
-	}
+	}*/
 
 	//show feedback
 	var _showFeedback = function(){	
 		//abandon keyboard event.
-        console.log(index);
-        console.log(imageCount);
+        //console.log(index);
+        //console.log(imageCount);
 		$(document).off("keydown");
+
+		stepFeedback++;
+
 		//record non-repeat state
 		if(isKeydown == 0){
 			//Only use warning when we take real game
-			if(index==imageCount)
-				isWarning = recordState(index + indexShift-1);
+			if(step==imageCount)
+				isWarning = recordState(index-1);
 			else
-				isWarning = recordState(index + indexShift);//,globalWorkerObj.finishLevel);
-		}	
-		//change to feedback image
-		$(".visImage").css({'display':'none'});
+				isWarning = recordState(index);//,globalWorkerObj.finishLevel);
+		}
+        //change to feedback image
+        $(".visImage").css({'display':'none'});
         //$(".task-instructions").css({'display': 'none'});
-		$(".feedbackImage").css({'display':'block'});
+        $(".feedbackImage").css({'display':'block'});
 
-		if(index == imageCount-1){
+		if(step == imageCount-1){
+			step++;
 			index++;
 		}
-		else if(index==imageCount){//lastPage == 1){//index == imageCount-1){
+		else if(step==imageCount){//lastPage == 1){//index == imageCount-1){
 			$('.feedbackImage').attr("src",'');  //delete the visImage
 			console.log("feedback");
 			//if real game
 			if(globalWorkerObj.isPracticeMode == 0){
 				//update user log
 				var userlog = "";
-				for(var i = indexShift;i < globalSequence.length; i++){
+				for(var i = 28;i < globalSequence.length; i++){
 					console.log(i);
-					userlog = userlog + globalSequence[i][0] + ',' + globalSequence[i][1] + ','+globalSequence[i][2]+','+globalSequence[i][3]+','+globalSequence[i][4]+';\n';
+					userlog = userlog + globalSequence[i][0] + ',' + globalSequence[i][1] + ','+globalSequence[i][2]+','+globalSequence[i][3]+','+globalSequence[i][4]+','+globalSequence[i][5]+';\n';
 // globalSequence[globalWorkerObj.finishLevel][i][3] + ';';
 				}
 				var performance = computeData(imageCount);//globalWorkerObj.finishLevel,imageCount);
 				console.log(performance);
 				var historyPerformance = performance.hitRate.toFixed(2);
-				//if(parseInt(globalWorkerObj.finishLevel) > 0){
-				//	historyPerformance = globalWorkerObj.performance + ',' + historyPerformance;
+				//if(globalLevel > 0){
+                //    historyPerformance = globalWorkerObj.performance + ',' + historyPerformance;
 				//}
 				updateUser(globalWorkerObj.WorkerID,userlog,historyPerformance);//globalWorkerObj.finishLevel,historyPerformance);
 			}
@@ -421,32 +654,39 @@ function imageShow(){
 				var performance = computeData(imageCount);//globalWorkerObj.finishLevel,imageCount);
 				//if(performance.hitRate > 0.5 && performance.faRate < 0.3){
 				console.log(performance);
-				if(performance.hitRate > 0.5 && performance.faRate < 0.3){ //4 targets + 26
-						showPractice(1);
-                    	globalWorkerObj.practiceTimes = parseInt(globalWorkerObj.practiceTimes)+1;
-                    	updateUserPractice(globalWorkerObj.WorkerID,globalWorkerObj.practiceTimes,1);
+
+				if( performance.hitRate > 0.1 && performance.faRate < 0.9){ //4 targets + 26
+                	showPractice(1);
+                    //$('.header-instructions').text("Summary");
+                    //$(".game-box").css({ 'display': 'none' });
+                    //$(".summary-box").css({'display':'block'});
+                    //$("#levelcode").css({'display':'block'});
+                    //$("#levelcode").text(globalWorkerObj.code);
+                    //$("#performancecode").css({'display':'block'});
+                    //$("#performancecode").text((performance.hitRate*100).toFixed(2) + "%.");
+                	//globalWorkerObj.practiceTimes = parseInt(globalWorkerObj.practiceTimes)+1;
+                	//updateUserPractice(globalWorkerObj.WorkerID,globalWorkerObj.practiceTimes,1);
 				}
 				else{
 					globalWorkerObj.practiceTimes = parseInt(globalWorkerObj.practiceTimes)+1;
 					if(globalWorkerObj.practiceTimes < 3){
 						//redo
 						showPractice(2);
-                        updateUserPractice(globalWorkerObj.WorkerID,globalWorkerObj.practiceTimes,0);
+                        //updateUserPractice(globalWorkerObj.WorkerID,globalWorkerObj.practiceTimes,0);
 					}
 					else{
 						//block
 						updateUserPractice(globalWorkerObj.WorkerID,3,0);
 					}
-
 				}
-				// passPractice 
+				// passPractice
 				// if(parseInt(globalWorkerObj.passPractice) == 1){
 				// 	var performance = computeData(globalWorkerObj.finishLevel,imageCount);
 				// 	if(performance.hitRate > 0.5 && performance.faRate < 0.3){
 				// 		showPractice(1);
 				// 	}
 				// 	else{
-				// 		showPractice(2);					
+				// 		showPractice(2);
 				// 	}
 				// }
 				// else{
@@ -456,29 +696,40 @@ function imageShow(){
 				// 		globalWorkerObj.passPractice = 1;
 				// 	}
 				// 	else{
-				// 		globalWorkerObj.practiceTimes = parseInt(globalWorkerObj.practiceTimes) + 1;					
+				// 		globalWorkerObj.practiceTimes = parseInt(globalWorkerObj.practiceTimes) + 1;
 				// 	}
 				// 	updateUserPractice(globalWorkerObj.WorkerID,globalWorkerObj.practiceTimes,globalWorkerObj.passPractice);
-				// }												
-			}			
+				// }
+			}
 			//stop show feedback
 			clearInterval(showFeedThread);
-		}	
+		}
+		else{
+            var mod = Math.floor(stepFeedback % stepCount);
+            if(stepFeedback > 0 && mod == 0){
+                globalLevel ++;
+                clearInterval(showFeedThread);
+                //clearInterval(showImageThread);
+				levelShow();
+                //var flag = setTimeout(function(){levelShow();}, pauseTime);
+            }
+		}
+
 	}
 
 	//show add1s and add2s
-	var showXThread = setInterval(_showX, showTime+XTime+pauseTime);
+	//var showXThread = setInterval(_showX, showTime+XTime+pauseTime);
 
     var _add1s = function(){
-        showFeedThread = setInterval(_showFeedback,showTime+XTime+pauseTime);
+        showFeedThread = setInterval(_showFeedback,showTime+pauseTime);
     }
 
-	var _add2s = function() {
-        showImageThread = setInterval(_showImage, showTime + XTime + pauseTime);
-    }
+	//var _add2s = function() {
+    showImageThread = setInterval(_showImage, showTime + pauseTime);
+    //}
 
-    setTimeout(_add2s, XTime);
-	setTimeout(_add1s, showTime+XTime);
+    //setTimeout(_add2s, XTime);
+	setTimeout(_add1s, showTime);
 }
 
 //state: 1: filler hits, 2: filler miss 3. filler false alarm 4. filler correct rejection
@@ -530,12 +781,13 @@ function recordState(index){//,level){
 
 	var isWarning = 0;
     //    globalSequence[index][3] = 1;
-	if(globalSequence[index][0] == globalSequence[index][2]){
+	/*if(globalSequence[index][0] == globalSequence[index][2]){
 		$('.feedbackImage').attr("src",'/images/false.png');
 	}
 	else {
 		$('.feedbackImage').attr("src",'/images/correct.png');
-	}
+	}*/
+    $('.feedbackImage').attr("src",'/images/defult_feedback.png');
 /*	
 	//if participant see this image for first time
 	if(globalSequence[level][index][1] == 0){
@@ -576,15 +828,15 @@ function getVigilance(){//level){
 		// if(globalSequence[level][i][1] == 1 && globalSequence[level][i][2] == 0){
 		// 	globalVigilance.vigilanceIndex.push(globalSequence[level][i][0]);
 		// }
-		if(globalSequence[i][0] != globalSequence[i][2]){
-			globalVigilance.nonRepeatIndex.push(i);
-		}
+		//if(globalSequence[i][0] != globalSequence[i][2]){
+		//	globalVigilance.nonRepeatIndex.push(i);
+		//}
 	}
 }
 
 
 function checkWarning(cursor){//,level){
-	var isWarning = 0;
+	/*var isWarning = 0;
 
 	var start = cursor - 30;
 	var faCount = 0;
@@ -598,7 +850,7 @@ function checkWarning(cursor){//,level){
 		//showWarning();
 		isWarning = 1;
 	}
-	return isWarning;
+	return isWarning;*/
 }
 
 

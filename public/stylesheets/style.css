@@ -124,7 +124,19 @@ border: 1px dashed #2c4e50; background:#ffffff;}
 	font-size: 14px; color: #ffffff; cursor: pointer; }
 .ordermemo .main-box .content-box .game-box #start-practice:hover{background-color: #34495E}
 
+.ordermemo .main-box .content-box .game-box #start-level{ height: 2.86rem; width: 10rem; top: 25%;
+	border-radius: 0.2rem; position: relative; border: none;
+	background:#2C3E50; margin: 0 auto; text-align: center;
+	font-size: 14px; color: #ffffff; cursor: pointer; }
+.ordermemo .main-box .content-box .game-box #start-level:hover{background-color: #34495E}
+
 .ordermemo .main-box .content-box .game-box .instructions{text-align: left; position: relative;top: 30%; line-height: 1.5rem;}
+
+.ordermemo .main-box .content-box .game-box .level-instructions{text-align: left; line-height: 1.5rem; top: 5%;
+	left: 0%;width: 100%; position: relative; display: none}
+
+.ordermemo .main-box .content-box .game-box .feedback-instructions{text-align: left; line-height: 1.5rem; top: 10%;
+    left: 0%;width: 100%; position: relative; display: none}
 
 .ordermemo .main-box .content-box .game-box .practice-instructions1{text-align: left; line-height: 1.5rem; top: 5%;
 left: 0%;width: 100%; position: relative; display: none}
@@ -138,7 +150,7 @@ left: 0%;width: 100%; position: relative; display: none}
 
 .ordermemo .main-box .content-box .game-box .encode-box{text-align: center; top: 5%; position: relative; display: none}
 
-.ordermemo .main-box .content-box .game-box .encodeImage1{text-align: center; max-width: 10rem; max-height: 10rem}
+.ordermemo .main-box .content-box .game-box .encodeImage1{text-align: center; max-width: 60rem; max-height: 5rem}
 
 .ordermemo .main-box .content-box .game-box .encodeImage2{text-align: center; max-width: 20rem; max-height: 20rem}
 
@@ -152,6 +164,11 @@ left: 0%;width: 100%; position: relative; display: none}
 	background:#2C3E50; margin: 0 auto;  text-align: center; border: none;
 	font-size: 0.9rem; color: #ffffff; cursor: pointer; display: none}
 #begingame-button:hover{background-color: #34495E}
+
+#beginlevel-button{height: 2rem; width: 7rem; border-radius: 0.2rem; top:40%; position: relative;
+	background:#2C3E50; margin: 0 auto;  text-align: center; border: none;
+	font-size: 0.9rem; color: #ffffff; cursor: pointer; display: none}
+#beginlevel-button:hover{background-color: #34495E}
 
 .imageContainer{
 	display: none;
@@ -182,6 +199,7 @@ left: 0%;width: 100%; position: relative; display: none}
 #summary-time-note{font-size: 1.0rem; font-style: italic;}
 #summary-code{position: relative;text-align: center;top:12%;}
 #levelcode{font-weight: bold;color: #53ac58}
+#performancecode{font-weight: bold;color: #53ac58}
 #summary-instruction{position: relative;text-align: center;top: 12%;}
 #summary-chart{position: relative;top: 15%;border: 1px solid #2C3E50;background:#ffffff;
 width: 800px; height: 320px; margin:auto;}
@@ -236,6 +254,8 @@ left: 415px;top: 10px;}
 	background:#2C3E50; margin: 0 auto; text-align: center; border: none;
 	font-size: 0.9rem; color: #ffffff; cursor: pointer; display: none}
 #repractice-button:hover{background-color: #34495E}
+
+
 
 #goback-button{height: 1.86rem; width: 10rem; border-radius: 0.2rem; top:20%; position: relative;
 	background:#f0f0f0; margin: 0 auto; text-align: center; 

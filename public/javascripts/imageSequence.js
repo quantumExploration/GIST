@@ -8,10 +8,16 @@
 //  Increase the difficulties
 //  The equality of each power
 
+//practice
+//28 + 98
+
 function generateGamesquence(){
 	//define experiment parameter
+    //var dataCount = 2;
+
     var powerGroup = 7;
     var powerPerGroup = 40;
+
     var totalCount = powerGroup * powerPerGroup;
 
     var practicePerGroup = 4;
@@ -25,12 +31,13 @@ function generateGamesquence(){
 
     var minPower = 3;
 
+    var imageInfoArr = new Array();
+
     var orderPerPower = new Array();
     for(var i=0;i<powerGroup;i++){
-        var orderArr = getRandomSequence(powerPerGroup, practicePerPower+realPerPower);
+        var orderArr = getRandomSequence(powerPerGroup, ( practicePerPower+realPerPower ) );
         orderPerPower.push(orderArr);
     }
-    //console.log(orderPerPower);
 
     var realOrderPerGroup = new Array();
     for(var i=0;i<powerGroup;i++){
@@ -48,6 +55,7 @@ function generateGamesquence(){
         //[ [4,0], [4,1], [5, 2], [6, 3]],
         //[ [5,0], [5,1], [6, 2], [0, 3]],
         //[ [6,0], [6,1], [0, 2], [1, 3]]
+
         [ [0,0], [0,1], [1, 2], [2, 3]],
         [ [1,1], [1,3], [2, 1], [3, 0]],
         [ [2,2], [2,0], [3, 1], [4, 2]],
@@ -55,13 +63,32 @@ function generateGamesquence(){
         [ [4,0], [4,1], [5, 2], [6, 3]],
         [ [5,1], [5,3], [6, 1], [0, 3]],
         [ [6,2], [6,0], [0, 2], [1, 0]]
+
+        //[ [0,0], [1,1], [2,2], [3,3], [4,4], [5,5], [6,6] ],
+        //[ [0,1], [1,2], [2,3], [3,4], [4,5], [5,6], [6,0] ],
+        //[ [0,2], [1,3], [2,4], [3,5], [4,6], [5,0], [6,1] ],
+        //[ [0,3], [1,4], [2,5], [3,6], [4,0], [5,1], [6,2] ],
+        //[ [0,4], [1,5], [2,6], [3,0], [4,1], [5,2], [6,3] ],
+        //[ [0,5], [1,6], [2,0], [3,1], [4,2], [5,3], [6,4] ],
+        //[ [0,6], [1,0], [2,1], [3,2], [4,3], [5,4], [6,5] ]
     ];
 
-    var imageInfoArr = new Array();
-    //1 : color; 2: texture; 3: splitvectors
-    var encodeIndex = Math.floor(Math.random()*3) + 1;
-    var distributionIndex = Math.floor(Math.floor(Math.random()*5) % 2);
 
+    //1 : color; 2: texture; 3: splitvectors
+    var encodeIndex = 1;//Math.floor(Math.random()*3) + 1;
+    globalEncodeIndex = encodeIndex;
+    var distributionIndex = 0;//Math.floor(Math.floor(Math.random()*5) % 2);
+
+    /*
+    var indexShift = 0;
+    for(var d=0;d<dataCount;d++){
+        var imageInfo = new Array();
+        for(var i=0;i<powerGroup;i++) {
+            for (var j = 0; j < practicePerPower + realPerPower; j++) {
+                imageInfo.push([0,0,0,0,0,0]);
+            }
+        }
+    }*/
 
     for(var i=0;i<powerGroup;i++) {
         for (var j = 0; j < practicePerPower + realPerPower; j++) {
@@ -98,8 +125,25 @@ function generateGamesquence(){
         }
     }
 
+    imageSequence = new Array();
+    for(var i=0;i<powerGroup;i++){
+        tmpSequence = new Array();
+        var start = i * practicePerGroup;
+        var end = (i+1) * practicePerGroup;
+        for(var j =start;j<end;j++){
+            tmpSequence.push(imageInfoArr[j]);
+        }
+        start = practiceCount + i * realPerGroup;
+        end = practiceCount + (i+1) * realPerGroup;
+        for(var j =start;j<end;j++){
+            tmpSequence.push(imageInfoArr[j]);
+        }
+        imageSequence.push(tmpSequence);
+    }
+
     //console.log(imageInfoArr);
     return imageInfoArr;
+    //return imageInfoArr;
     /*
 
     var practiceCount = 21;

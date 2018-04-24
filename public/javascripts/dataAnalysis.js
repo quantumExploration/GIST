@@ -10,7 +10,7 @@ function computeData(imageCount){//level,imageCount){
 	var totalNonRepeat = 0;
 	//count performance data.
 	for(var i = 0; i < imageCount; i++){
-		if(globalSequence[i][3] == 1){
+		if(globalSequence[i][0] == globalSequence[i][2]){
 			/*totalNonRepeat++;
 			if(globalSequence[i][0] != globalSequence[i][2]
                         && globalSequence[i][3] == 0){
@@ -22,7 +22,7 @@ function computeData(imageCount){//level,imageCount){
 	//		if(globalSequence[level][i][3] == 3 || globalSequence[level][i][3] == 7){
 				faCount++;
 			}*/
-			if(globalSequence[i][0] == globalSequence[i][2]){
+			if(globalSequence[i][3] == 1){
 				hitCount++;//crCount++;
 			}
 			else{
@@ -43,7 +43,7 @@ function computeData(imageCount){//level,imageCount){
 				hitCount++;
 			}
 			*/
-			if(globalSequence[i][0] == globalSequence[i][2]){
+			if(globalSequence[i][3] == 1){
 				faCount++;//crCount++;
 			}
 			else{

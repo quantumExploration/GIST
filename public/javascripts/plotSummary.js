@@ -6,7 +6,7 @@ function plotScore(){
 	var width = 250;
 	var height = 220;
 	var level = new Array();
-	for(var i = 0;i < 17;i++){
+	for(var i = 0;i < 7;i++){
 		level[i] = i+1;
 	}
 
@@ -77,7 +77,7 @@ function plotScore(){
 		.attr('d', line);
 
 	//tips
- 	tip = d3.tip().attr('class', 'd3-tip').html(function(d,i) { 
+ 	var tip = d3.tip().attr('class', 'd3-tip').html(function(d,i) {
  		var rate = d*100;
  		var level = i+1;
  		rate = rate.toFixed(2);

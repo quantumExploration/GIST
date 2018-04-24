@@ -20,7 +20,7 @@ function getImageUrl(imageSequence){
 		}else{
 			imageIDArr = imageIDArr + imageDistribution + imageSequence[i][4].toString()+imageSequence[i][0].toString()+imageSequence[i][1].toString() + ',';
 		}
-		console.log(imageIDArr);
+		//console.log(imageIDArr);
 	}
 	
 	//search imageURL from database

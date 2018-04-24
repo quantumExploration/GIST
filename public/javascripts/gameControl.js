@@ -2,15 +2,18 @@
 //var globalWorkerID;
 
 var globalSequence;
+var globalLevel;
 var globalEncodeIndex;
-var globalTimeType;
-var globalDataType;
+//var globalTimeType;
+//var globalDataType;
 var globalImageURLobj;
+var globalLevel;
 var globalWorkerObj = new Object();
-var globalVigilance = new Object();
+//var globalVigilance = new Object();
 
 $(document).ready(function() {
 
+	globalLevel = 0;
 	$('.submitworkID-button').unbind('click').click(function() {});
 	$(".submitworkID-button").click(function(){
 		//====================test
@@ -48,7 +51,6 @@ function returnToMain(){
 
 //if user exist, back to start page
 function enterStartpage(data){
-	
 	$(".workID-box").css({'display':'none'});
 	$(".demo-box").css({'display':'none'});
 	$(".practice-box").css({'display':'none'});
@@ -58,17 +60,17 @@ function enterStartpage(data){
 	$(".game-box").css({'display':'block'});
 	$(".practice-button").css({ 'display': 'block'});
 	$(".block").css({ 'display': 'block'});
-	$(".instructions").css({ 'display': 'block'});
+	$(".instructions").css({ 'display': 'none'});
 	$(".game-instructions").css({ 'display': 'block' });
-	$(".game-instructions").text("Dear participant, thanks for taking part in our online image game. Please read the following information carefully and click the \"Start Practice\" button to begin our practice game.");
+	$(".game-instructions").text("Thanks for taking part in our online image game. Please click \"Start Practice\" button to begin.");
 
 	globalWorkerObj.WorkerID = data.WorkerID;
-//	globalWorkerObj.finishLevel = data.finishLevel;
+	globalWorkerObj.finishLevel = -1;
 	globalWorkerObj.isBlocked = data.isBlocked;
 	globalWorkerObj.practiceTimes = 0;
 //	globalWorkerObj.warningTimes = data.warningTimes;
 	globalWorkerObj.passPractice = data.passPractice;
-	globalWorkerObj.performance = data.performance;
+	globalWorkerObj.performance = null;//data.performance;
 
 	//test ==============
 	// $(".game-box").css({'display':'none'});
@@ -155,6 +157,7 @@ function enterInvestpage(workerID){
 //start realExperiment
 function startGame(){
 	//load interface
+	globalLevel = 0;
 	$(".game-box").css({ 'display': 'none' });
 	$(".game-instructions").css({ 'display': 'none' });
 	$(".practice-button").css({ 'display': 'none' });
@@ -200,6 +203,33 @@ function TimeClose() {
     //returnToMain();
 }
 
+function jumpNextPower() {
+    $('#summary-exit-button').unbind('click').click(function() {});
+    $("#summary-exit-button").click(function(){
+        TimeClose();
+        returnToMain();
+    });
+    if(parseInt(globalWorkerObj.finishLevel) < 7){
+        //go to other level
+        $("#nextlevel-button").css({'display':'block'});
+        //unbinding first!
+        $('#nextlevel-button').unbind('click').click(function() {});
+        $("#nextlevel-button").click(function(){
+            TimeClose();
+            $('.svg').remove();
+            //get url from database and begin the game
+            getImageUrl(globalSequence[globalWorkerObj.finishLevel]);
+        });
+    }
+
+    //block user, will not use database, just use finishLevel is ok
+    if(globalWorkerObj.finishLevel == 7){
+        $('#summary-rest-time').text("Congratulations! You have finished our game!");
+        //showBlock(4);
+        //console.log("byebye");
+    }
+}
+
 //show Feedback page
 function levelSummary(){
 	//show summary dataset
@@ -240,7 +270,7 @@ function jumpNextLevel(){
 			TimeClose();
 			$('.svg').remove();
 			//get url from database and begin the game
-			getImageUrl(globalSequence[globalWorkerObj.finishLevel]);	
+			getImageUrl(globalSequence);
 		});		
 	}
 
@@ -286,12 +316,13 @@ function showPractice(practiceParam){
 		//if user pass the practice test
         $('.header-instructions').text("");
 		$('#practice-text').text("Congratulations! You passed the practice test. Please click the button below to enter the real game.");
-		$("#repractice-button").text("Go game");
+		$("#repractice-button").text("Start");
 		$("#repractice-button").css({'display':'block'});
 		$('#repractice-button').unbind('click').click(function() {});
 		$("#repractice-button").click(function(){
 			//begin game
 			globalWorkerObj.isPracticeMode = 0;
+			globalLevel = 0;
 			startGame();
 		});
 	}
@@ -310,7 +341,7 @@ function showPractice(practiceParam){
 	else{
 		//if user passed the practice before and failed
 		$('#practice-text').text("Sorry, you just failed in our practice test, please redo the practice test by clicking the 'redo' practice button.");
-		$("#repractice-button").text("Practice again");
+		$("#repractice-button").text("Practice Again");
 		$("#repractice-button").css({'display':'block'});
 		$("#goback-button").css({'display':'block'});
 		$('#repractice-button').unbind('click').click(function() {});

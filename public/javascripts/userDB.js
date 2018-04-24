@@ -155,6 +155,9 @@ function updateUser(workerID,labResult,performance){//level,performance){
             $(".summary-box").css({'display':'block'});
             $("#levelcode").css({'display':'block'});
 			$("#levelcode").text(globalWorkerObj.code);
+			$("#performancecode").css({'display':'block'});
+            $("#performancecode").text("The correct rate is " + performance*100 + "%.");
+			//plotScore();
         },
         error:function(data){
             
